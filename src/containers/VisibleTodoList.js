@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import store from '../store'
 import todoList from '../components/TodoList'
 // 无数据DOM
 const noData = () => {
@@ -17,26 +17,18 @@ const dataFilter = (type, data) => {
     return dataObj[type];
 }
 // 正常的显示结构
-const VisibleTodoList = ({ todos, visibilityFilter, onChangeTodoState}) => {
-    const todoData = dataFilter(visibilityFilter.filter(res => res.active)[0].type, todos)
+const VisibleTodoList = () => {
+    const onChangeTodoState = (id)=> {
+        store.dispatch({
+            type: 'CHANGE_TODO',
+            id,
+        });
+    }
+    const todoData = dataFilter(store.getState().visibilityFilter.filter(res => res.active)[0].type, store.getState().todos)
     const dom = todoData&&todoData.length ? todoList : noData;
     return dom({todoData, onChangeTodoState});
 }
-// 向组件绑定state状态
-const mapStateToProps = ({todos, visibilityFilter}) => {
-    return {todos, visibilityFilter};
-};
 
-// 向组件绑定action
-const mapDispatchToProps = ({
-    onChangeTodoState: (id)=> {
-        return {
-            type: 'CHANGE_TODO',
-            id,
-        }
-    }
-  })
-// 通过react-redux连接dom与store，以及让组件获取状态
-const VisibleTodoListDom = connect(mapStateToProps, mapDispatchToProps)(VisibleTodoList)
 
-export default VisibleTodoListDom
+
+export default VisibleTodoList

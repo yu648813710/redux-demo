@@ -1,19 +1,17 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
 import App from './containers/App'
-import reducer from './reducers'
+import store from './store'
 
-// 判断是否有redux的开发者工具
-
-const reduxDevtools = window.devToolsExtension ? window.devToolsExtension() : ()=>{}
-
-const store = createStore(reducer, reduxDevtools)
-
+// 初次渲染
 render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+    <App />,
   document.getElementById('root')
 )
+// 监听变化然后重新渲染
+store.subscribe(()=> {
+    render(
+        <App />,
+      document.getElementById('root')
+    )
+})

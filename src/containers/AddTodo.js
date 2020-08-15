@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import store from '../store'
 
 let nextTodoId = 0
 const addTodo = (text) => ({
@@ -9,14 +9,14 @@ const addTodo = (text) => ({
 })
 
 // 获取提交方法
-const AddTodo = ({ dispatch }) => {
+const AddTodo = () => {
     let inputDom
     function add () {
         if(!inputDom.value.trim()) {
             alert('请输入内容');
             return false;
         };
-        dispatch(addTodo(inputDom.value))
+        store.dispatch(addTodo(inputDom.value))
         inputDom.value = null
     }
     return (
@@ -27,5 +27,4 @@ const AddTodo = ({ dispatch }) => {
 };
 
 // 让组件可以获取redux里的方法
-const AddTodoDom = connect()(AddTodo)
-export default AddTodoDom
+export default AddTodo
