@@ -17,6 +17,7 @@ const AddTodo = () => {
             return false;
         };
         store.dispatch(addTodo(inputDom.value))
+        store.getState().todos.push({text:'睡觉', id:89, completed: false})
         inputDom.value = null
     }
     return (

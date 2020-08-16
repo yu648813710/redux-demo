@@ -2,7 +2,6 @@ import React from 'react';
 import store from '../store'
 const FilterLink = () => {
     const filterClick = (type) => {
-        console.log("filterClick -> type", type)
         store.dispatch({type:'CHANG', idType: type})
     }   
     return (
